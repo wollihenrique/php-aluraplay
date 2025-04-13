@@ -8,7 +8,7 @@ if($url === false) {
     exit;
 }
 
-$titulo = filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_STRING);
+$titulo = filter_input(INPUT_POST, 'titulo');
 if($titulo === false) {
     header('Location: /?sucesso=0');
     exit;
