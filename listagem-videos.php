@@ -5,7 +5,7 @@
     $videosList = $pdo->query('SELECT * FROM videos;')->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
-<?php require_once 'inicio-html.php'; ?>
+<?php require_once __DIR__ . '/public/inicio-html.php'; ?>
     <ul class="videos__container" alt="videos alura">
         <?php foreach($videosList as $video): ?>
             <?php 

@@ -1,6 +1,6 @@
 <?php
 
-require "config.php";
+require 'config.php';
 
 $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
 if($url === false) {

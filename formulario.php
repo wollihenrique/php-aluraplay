@@ -16,7 +16,7 @@ if($id !== false && $id !== null){
     $video = $statement->fetch(PDO::FETCH_ASSOC);
 }
 ?>
-<?php require_once 'inicio-html.php'; ?>
+<?php require_once __DIR__ . '/public/inicio-html.php'; ?>
     <main class="container">
 
         <form class="container__formulario" action="" method="POST">
