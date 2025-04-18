@@ -1,6 +1,8 @@
 <?php 
 
-require "config.php";
+require 'config.php';
+require 'src/Repository/RepositorioVideos.php';
+require 'src/Models/Videos.php';
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if($id === false){
@@ -8,12 +10,11 @@ if($id === false){
     exit;
 }
 
-$sql = 'DELETE FROM videos WHERE id = ?;';
-$statement = $pdo->prepare($sql);
-$statement->bindValue(1, $id);
+$repositorioVideos = new RepositorioVideos($pdo);
+$result = $repositorioVideos->deletarVideo($id);
 
-if ($statement->execute() === false){
-    header('Location: /?sucesso=0');
-} else {
+if($result === false) {
     header('Location: /?sucesso=1');
+} else {
+    header('Location: /?sucesso=0');
 }

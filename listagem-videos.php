@@ -1,8 +1,11 @@
 <?php
 
     require 'config.php';
+    require 'src/Repository/RepositorioVideos.php';
+    require 'src/Models/Videos.php';
 
-    $videosList = $pdo->query('SELECT * FROM videos;')->fetchAll(PDO::FETCH_ASSOC);
+    $repositorioVideos = new RepositorioVideos($pdo);
+    $videosList = $repositorioVideos->listaVideos();
 
 ?>
 <?php require_once __DIR__ . '/public/inicio-html.php'; ?>

@@ -1,6 +1,10 @@
 <?php
 
 require 'config.php';
+require 'src/Models/Videos.php';
+require 'src/Repository/RepositorioVideos.php';
+
+$repositorioVideos = new RepositorioVideos($pdo);
 
 $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
 if($url === false) {
@@ -20,18 +24,14 @@ if($id === false){
     exit;
 }
 
-$sql = 'DELETE FROM videos WHERE id = ?;';
-$statement = $pdo->prepare($sql);
-$statement->bindValue(1, $id);
 
-$sql = 'UPDATE videos SET url = :url, titulo = :titulo WHERE id = :id;';
-$statement = $pdo->prepare($sql);
-$statement->bindValue(':url', $url);
-$statement->bindValue(':titulo', $titulo);
-$statement->bindValue(':id', $id);
+$video = new Videos($id, $url, $titulo);
+$result = $repositorioVideos->atualizarVideo($video);
 
-if ($statement->execute() === false){
-    header('Location: /?sucesso=0');
-} else {
+if ($result === true) {
     header('Location: /?sucesso=1');
+    exit;
+} else {
+    header('Location: /?sucesso=0');
+    exit;
 }
