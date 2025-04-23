@@ -4,6 +4,9 @@ require 'config.php';
 require 'src/Repository/RepositorioVideos.php';
 require 'src/Models/Videos.php';
 
+use Alura\Mvc\Repository\RepositorioVideos;
+use Alura\Mvc\Entity\Videos;
+
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if($id === false){
     header('Location: /?sucesso=0');

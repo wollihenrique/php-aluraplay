@@ -1,5 +1,10 @@
 <?php 
 
+namespace Alura\Mvc\Repository;
+
+use Pdo;
+use Alura\Mvc\Entity\Videos;
+
 class RepositorioVideos 
 {
     private PDO $pdo;
@@ -11,56 +16,65 @@ class RepositorioVideos
     public function criarVideo(Videos $video):bool {
         $query = "INSERT INTO videos (url, titulo) VALUES (?, ?);";
         $statement = $this->pdo->prepare($query);
-        $statement->bindValue(1, $video->getUrl());
-        $statement->bindValue(2, $video->getTitulo());
+        $statement->bindValue(1, $video->url);
+        $statement->bindValue(2, $video->titulo);
+        $result = $statement->execute();
 
-        if ($statement->execute() === true){
-            return true;
+        if($result === false) {
+            throw new \InvalidArgumentException("Algo de errado não deu certo");
         } else {
-            return false;
-        } 
+            $id = $this->pdo->lastInsertId();
+            $video->setId(intval($id));
+            return $result;
+        }
+
     }
 
+    /**
+     * Summary of listaVideos
+     * @return Videos[]
+     */
     public function listaVideos():array {
-        $query = "SELECT * FROM videos;";
-        $statement = $this->pdo->prepare($query);
-        $statement->execute();
-        $videos = $statement->fetchAll(PDO::FETCH_ASSOC);
-        return $videos;
+        $videoList = $this->pdo
+            ->query('SELECT * FROM videos;')
+            ->fetchAll(PDO::FETCH_ASSOC);
+        
+            return array_map(function(array $videoData){
+                $video = new Videos($videoData['url'], $videoData['titulo']);
+                $video->setId($videoData['id']);
+
+                return $video;
+            }, $videoList
+        );
     }
 
-    public function lerVideo(int $id):array {
+    public function lerVideo(int $id):Videos {
         $query = "SELECT * FROM videos WHERE id = ?;";
         $statement = $this->pdo->prepare($query);
         $statement->bindValue(1, $id);
         $statement->execute();
-        $video = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $video = new Videos($result['url'], $result['titulo']);
+        $video->setId($result['id']);
         return $video;
     }
 
     public function atualizarVideo(Videos $video): bool{
         $query = "UPDATE videos SET url = :url, titulo = :titulo WHERE id = :id;";
         $statement = $this->pdo->prepare($query);
-        $statement->bindValue(':url', $video->getUrl());
-        $statement->bindValue(':titulo', $video->getTitulo());
-        $statement->bindValue(':id', $video->getId());
 
-        if ($statement->execute() === true){
-            return true;
-        } else {
-            return false;
-        } 
+        $statement->bindValue(':url', $video->url);
+        $statement->bindValue(':titulo', $video->titulo);
+        $statement->bindValue(':id', $video->id, PDO::PARAM_INT);
+
+        return $statement->execute();
     }
 
     public function deletarVideo(int $id):bool {
         $query = "DELETE FROM videos WHERE id = ?;";
         $statement = $this->pdo->prepare($query);
         $statement->bindValue(1, $id);
-
-        if ($statement->execute() === true){
-            return true;
-        } else {
-            return false;
-        } 
+        return $statement->execute();
     }
 }

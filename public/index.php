@@ -1,7 +1,6 @@
 <?php
 
- //var_dump($_SERVER['PATH_INFO'], $_SERVER['REQUEST_METHOD']);
- //exit;
+require __DIR__ . '/../vendor/autoload.php';
 
 if(!array_key_exists('PATH_INFO', $_SERVER) || $_SERVER['PATH_INFO'] === '/') {
     require_once __DIR__ . '/../listagem-videos.php';

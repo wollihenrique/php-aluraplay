@@ -4,6 +4,9 @@ require 'config.php';
 require 'src/Models/Videos.php';
 require 'src/Repository/RepositorioVideos.php';
 
+use Alura\Mvc\Repository\RepositorioVideos;
+use Alura\Mvc\Entity\Videos;
+
 $repositorioVideos = new RepositorioVideos($pdo);
 
 $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
@@ -13,7 +16,7 @@ if($url === false) {
 }
 
 $titulo = filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_STRING);
-if($titulo === false) {
+if($titulo === false || $titulo === null) {
     header('Location: /?sucesso=0');
     exit;
 }
@@ -25,10 +28,10 @@ if($id === false){
 }
 
 
-$video = new Videos($id, $url, $titulo);
-$result = $repositorioVideos->atualizarVideo($video);
+$video = new Videos( $url, $titulo);
+$video->setId($id);
 
-if ($result === true) {
+if ($repositorioVideos->atualizarVideo($video) === true) {
     header('Location: /?sucesso=1');
     exit;
 } else {
