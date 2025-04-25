@@ -1,9 +1,17 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config.php';
+
+use Alura\Mvc\Repository\RepositorioVideos;
+use Alura\Mvc\Controller\VideoListController;
+
+$videoRepository = new RepositorioVideos($pdo);
 
 if(!array_key_exists('PATH_INFO', $_SERVER) || $_SERVER['PATH_INFO'] === '/') {
-    require_once __DIR__ . '/../listagem-videos.php';
+    $controller = new VideoListController($videoRepository);
+    $controller->processaRequisicao();
+
 } elseif($_SERVER['PATH_INFO'] === '/inserir-videos') {
     if($_SERVER['REQUEST_METHOD'] === 'GET') {
         require_once __DIR__ . '/../formulario.php';
