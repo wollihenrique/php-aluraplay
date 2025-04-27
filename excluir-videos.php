@@ -4,8 +4,8 @@ require 'config.php';
 require 'src/Repository/RepositorioVideos.php';
 require 'src/Models/Videos.php';
 
-use Alura\Mvc\Repository\RepositorioVideos;
 use Alura\Mvc\Entity\Videos;
+use Alura\Mvc\Repository\VideoRepository;
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if($id === false){
@@ -13,7 +13,7 @@ if($id === false){
     exit;
 }
 
-$repositorioVideos = new RepositorioVideos($pdo);
+$repositorioVideos = new VideoRepository($pdo);
 $result = $repositorioVideos->deletarVideo($id);
 
 if($result === false) {

@@ -4,10 +4,10 @@
     require 'src/Repository/RepositorioVideos.php';
     require 'src/Models/Videos.php';
 
-    use Alura\Mvc\Repository\RepositorioVideos;
     use Alura\Mvc\Entity\Videos;
+    use Alura\Mvc\Repository\VideoRepository;
 
-    $repositorioVideos = new RepositorioVideos($pdo);
+    $repositorioVideos = new VideoRepository($pdo);
     $videosList = $repositorioVideos->listaVideos();
 
 ?>

@@ -4,8 +4,8 @@ require 'config.php';
 require 'src/Repository/RepositorioVideos.php';
 require 'src/Models/Videos.php';
 
-use Alura\Mvc\Repository\RepositorioVideos;
 use Alura\Mvc\Entity\Videos;
+use Alura\Mvc\Repository\VideoRepository;
 
 $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
 if($url === false) {
@@ -18,7 +18,7 @@ if($titulo === false) {
     exit;
 }
 
-$repositorioVideos = new RepositorioVideos($pdo);
+$repositorioVideos = new VideoRepository($pdo);
 
 if($repositorioVideos->criarVideo(new Videos($url, $titulo)) === false){
     header('Location: /?sucesso=0');

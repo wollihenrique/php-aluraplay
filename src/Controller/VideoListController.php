@@ -2,11 +2,11 @@
 
 namespace Alura\Mvc\Controller;
 
-use Alura\Mvc\Repository\RepositorioVideos;
+use Alura\Mvc\Repository\VideoRepository;
 
 class VideoListController 
 {
-    private RepositorioVideos $videoRepository;
+    private VideoRepository $videoRepository;
 
     public function __construct($videoRepository)
     {
