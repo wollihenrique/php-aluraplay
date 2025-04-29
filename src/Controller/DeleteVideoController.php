@@ -4,7 +4,7 @@ namespace Alura\Mvc\Controller;
 
 use Alura\Mvc\Repository\VideoRepository;
 
-class DeleteVideoController 
+class DeleteVideoController implements Controller
 {
     private VideoRepository $videoRepository;
 

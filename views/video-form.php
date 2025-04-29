@@ -1,22 +1,9 @@
 <?php
-
-require 'config.php';
-require 'src/Repository/RepositorioVideos.php';
-require 'src/Models/Videos.php';
-
-use Alura\Mvc\Entity\Videos;
-use Alura\Mvc\Repository\VideoRepository;
-
-$repositorioVideos = new VideoRepository($pdo);
-
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-
-if($id !== false && $id !== null){
-    $video = $repositorioVideos->lerVideo($id);
-}
+require_once __DIR__ . '/inicio-html.php';
+/** @var \Alura\Mvc\Entity\Videos $video */
 ?>
-<?php require_once __DIR__ . '/public/inicio-html.php'; ?>
-    <main class="container">
+
+<main class="container">
 
         <form class="container__formulario" action="" method="POST">
             <h2 class="formulario__titulo">Envie um vídeo!</h2>
@@ -27,7 +14,7 @@ if($id !== false && $id !== null){
                         class="campo__escrita" required
                         placeholder="Por exemplo: https://www.youtube.com/embed/FAY1K2aUg5g" 
                         id='url' 
-                        value="<?= isset($video) ? $video->url : ''; ?>"
+                        value="<?= $video?->url; ?>"
                     />
                 </div>
 
@@ -38,7 +25,7 @@ if($id !== false && $id !== null){
                         class="campo__escrita" required 
                         placeholder="Neste campo, dê o nome do vídeo"
                         id='titulo'
-                        value="<?= isset($video) ? $video->titulo : ''; ?>" 
+                        value="<?= $video?->titulo; ?>" 
                     />
                 </div>
 

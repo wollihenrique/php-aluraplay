@@ -5,7 +5,7 @@ namespace Alura\Mvc\Controller;
 use Alura\Mvc\Repository\VideoRepository;
 use Alura\Mvc\Entity\Videos;
 
-class UpdateVideoController
+class UpdateVideoController implements Controller
 {
     private VideoRepository $videoRepository;
 
