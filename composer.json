@@ -1,4 +1,5 @@
 {
+    "require": {},
     "autoload": {
         "psr-4": {
             "Alura\\Mvc\\": "src/"
