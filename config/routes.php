@@ -7,6 +7,7 @@ use Alura\Mvc\Controller\UpdateVideoController;
 use Alura\Mvc\Controller\VideoListController;
 use Alura\Mvc\Controller\ViewFormController;
 use Alura\Mvc\Controller\LoginFormController;
+use Alura\Mvc\Controller\LogoutController;
 
 return [
     'GET|/' => VideoListController::class,
@@ -17,4 +18,5 @@ return [
     'GET|/remover-video' => DeleteVideoController::class,
     'GET|/login' => LoginFormController::class,
     'POST|/login' => LoginController::class,
+    'GET|/logout' => LogoutController::class,
 ];
