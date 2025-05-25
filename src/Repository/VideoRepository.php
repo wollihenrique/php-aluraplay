@@ -94,4 +94,15 @@ class VideoRepository
         $statement->bindValue(1, $id);
         return $statement->execute();
     }
+
+    public function removerCapa(Videos $video):bool {
+        if($video->getFilePath() !== null){
+            $query = "UPDATE videos SET image_path = NULL WHERE id = ?";
+            $statement = $this->pdo->prepare($query);
+            $statement->bindValue(1, $video->id, PDO::PARAM_INT);
+            return $statement->execute();
+        } else {
+            return false;
+        }    
+    }
 }

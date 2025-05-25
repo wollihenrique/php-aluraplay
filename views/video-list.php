@@ -19,6 +19,7 @@ require_once __DIR__ . '/inicio-html.php';
                     <h3><?= $video->titulo; ?></h3>
                     <div class="acoes-video">
                         <a href="/editar-video?id=<?= $video->id; ?>">Editar</a>
+                        <a href="/remover-capa?id=<?= $video->id; ?>">Remover capa</a>
                         <a href="/remover-video?id=<?= $video->id; ?>">Excluir</a>
                     </div>
                 </div>
