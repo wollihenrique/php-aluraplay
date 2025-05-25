@@ -8,6 +8,7 @@ class Videos
     public readonly int $id;
     public readonly string $url;
     public readonly string $titulo;
+    private ?string $filePath = null;
     public function __construct(
         string $url, 
         string $titulo
@@ -35,5 +36,13 @@ class Videos
             throw new \InvalidArgumentException('O titulo deve conter mais de 3 caracteres');
         }
         $this->titulo = $titulo;
+    }
+
+    public function getFilePath(): string|null{
+        return $this->filePath;
+    }
+
+    public function setFilePath($filePath): void{
+        $this->filePath = $filePath;
     }
 }

@@ -22,7 +22,7 @@ class UpdateVideoController implements Controller
             exit;
         }
 
-        $titulo = filter_input(INPUT_POST, 'titulo', FILTER_SANITIZE_STRING);
+        $titulo = htmlspecialchars(trim($_POST['titulo']), ENT_QUOTES, 'UTF-8');
         if($titulo === false || $titulo === null) {
             header('Location: /?sucesso=0');
             exit;
@@ -37,7 +37,17 @@ class UpdateVideoController implements Controller
         $video = new Videos( $url, $titulo);
         $video->setId($id);
 
-        if ($this->videoRepository->atualizarVideo($video) === true) {
+        if($_FILES['image']['error'] === UPLOAD_ERR_OK){
+            move_uploaded_file(
+                $_FILES['image']['tmp_name'],
+                __DIR__ . '/../../public/img/uploads/' . $_FILES['image']['name']);
+
+            $video->setFilePath($_FILES['image']['name']);
+        }
+
+        $success = $this->videoRepository->atualizarVideo($video);
+
+        if ($success === true) {
             header('Location: /?sucesso=1');
             exit;
         } else {

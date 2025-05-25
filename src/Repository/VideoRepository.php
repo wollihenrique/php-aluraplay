@@ -18,14 +18,19 @@ class VideoRepository
         $video = new Videos($videoData['url'], $videoData['titulo']);
         $video->setId($videoData['id']);
 
+        if($videoData['image_path'] !== null){
+            $video->setFilePath($videoData['image_path']);
+        }
+
         return $video;
     }
 
     public function criarVideo(Videos $video):bool {
-        $query = "INSERT INTO videos (url, titulo) VALUES (?, ?);";
+        $query = "INSERT INTO videos (url, titulo, image_path) VALUES (?, ?, ?);";
         $statement = $this->pdo->prepare($query);
         $statement->bindValue(1, $video->url);
         $statement->bindValue(2, $video->titulo);
+        $statement->bindValue(3, $video->getFilePath());
         $result = $statement->execute();
 
         if($result === false) {
@@ -64,12 +69,21 @@ class VideoRepository
     }
 
     public function atualizarVideo(Videos $video): bool{
-        $query = "UPDATE videos SET url = :url, titulo = :titulo WHERE id = :id;";
+        $updateImage = '';
+        if($video->getFilePath() !== null){
+            $updateImage = ', image_path = :image';
+        }
+
+        $query = "UPDATE videos SET url = :url, titulo = :titulo $updateImage WHERE id = :id;";
         $statement = $this->pdo->prepare($query);
 
         $statement->bindValue(':url', $video->url);
         $statement->bindValue(':titulo', $video->titulo);
         $statement->bindValue(':id', $video->id, PDO::PARAM_INT);
+
+        if($video->getFilePath() !== null){
+            $statement->bindValue(':image', $video->getFilePath());
+        }
 
         return $statement->execute();
     }
