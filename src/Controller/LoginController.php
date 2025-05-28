@@ -27,6 +27,13 @@ class LoginController implements Controller
 
         $userData = $statement->fetch(PDO::FETCH_ASSOC);
         if(password_verify($password, $userData['password'])){
+            if(password_needs_rehash($userData['password'], PASSWORD_ARGON2ID)){
+                $query = 'UPDATE users SET password = ? WHERE id = ?;';
+                $statement = $this->pdo->prepare($query);
+                $statement->bindValue(1, password_hash($password, PASSWORD_ARGON2ID));
+                $statement->bindValue(2, $userData['id']);
+                $statement->execute();
+            }
             $_SESSION['logado'] = true;
             header('Location: /');
         } else {
